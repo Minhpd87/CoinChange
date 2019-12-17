@@ -1,12 +1,32 @@
-import React from "react";
-import "./App.css";
+import React, { useEffect } from "react";
+import { Container } from "semantic-ui-react";
+import { BrowserRouter as Router } from "react-router-dom";
 
-const App = () => {
+import { connect } from "react-redux";
+
+import { getAllPayment } from "./reducers/paymentReducers";
+
+import SimpleNavBar from "./components/SimpleNavBar";
+import RouteComponent from "./components/RouteComponent";
+
+const App = props => {
+  //Get all payment data on load
+  useEffect(() => {
+    props.getAllPayment();
+  }, []);
+
   return (
-    <>
-      <div>Boiler plate</div>
-    </>
+    <Container>
+      <Router>
+        <div style={{ padding: 10 }}>
+          <SimpleNavBar />
+          <RouteComponent />
+        </div>
+      </Router>
+    </Container>
   );
 };
 
-export default App;
+const connectedApp = connect(null, { getAllPayment })(App);
+
+export default connectedApp;
