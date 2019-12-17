@@ -1,7 +1,8 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import PaymentUI from "../components/paymentUI";
+import PaymentUI from "./PaymentUI";
+import DateList from "../components/DateList";
 
 const RouteComponent = () => {
   return (
@@ -10,7 +11,11 @@ const RouteComponent = () => {
       <Route
         exact
         path="/"
-        render={() => <div style={{ padding: 10 }}>Show date list here</div>}
+        render={() => (
+          <div style={{ padding: 10 }}>
+            <DateList />
+          </div>
+        )}
       />
 
       <Route

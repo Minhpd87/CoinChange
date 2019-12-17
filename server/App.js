@@ -9,6 +9,7 @@ const chalk = require("chalk");
 const mongoose = require("mongoose");
 
 const payRouter = require("./controllers/payRouter");
+const dateRouter = require("./controllers/dateRouter");
 
 //import middleware
 const cors = require("cors");
@@ -42,5 +43,6 @@ app.use(bodyParser.json());
 app.use(morgan("tiny"));
 
 app.use("/api/paymentData", payRouter);
+app.use("/api/dateData", dateRouter);
 
 module.exports = app;

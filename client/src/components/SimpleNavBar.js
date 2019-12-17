@@ -16,7 +16,7 @@ const SimpleNavBar = props => {
             props.history.push("/");
           }}
         >
-          Home
+          Date list
         </Menu.Item>
         <Menu.Item
           name="stats"

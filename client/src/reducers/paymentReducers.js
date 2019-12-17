@@ -23,7 +23,6 @@ const paymentReducer = (paymentState = [], action) => {
 
 export const getAllPayment = () => {
   return async dispatch => {
-    console.log(`test`);
     const paymentData = await paymentService.getAll();
     dispatch({
       type: "GET_ALL",
