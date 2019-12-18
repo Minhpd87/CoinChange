@@ -14,6 +14,7 @@ const remove = async id => {
 
 const create = async data => {
   const response = await axios.post(baseURL, data);
+  return response.data;
 };
 
 // const update = async (id, data) => {

@@ -3,7 +3,16 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Formik } from "formik";
 import { Form, Input } from "formik-antd";
-import { Divider, Row, Col, Collapse, BackTop, Button, Popconfirm } from "antd";
+import {
+  Divider,
+  Row,
+  Col,
+  Collapse,
+  BackTop,
+  Button,
+  Popconfirm,
+  List
+} from "antd";
 
 import {
   getAllPayment,
@@ -33,30 +42,37 @@ const PaymentUI = props => {
    * ! Redux
    */
   const paymentData = props.paymentData;
-  const sortedPayment = [...paymentData].sort((a, b) => {
+  let sortedPayment = [...paymentData].sort((a, b) => {
     return a.paymentID - b.paymentID;
   });
 
+  /**
+   * ! Stateful
+   */
   const [currentPaymentID, setCurrentPaymentID] = useState(
     sortedPayment.length + 1
   );
 
   const [documentList, setDocumentList] = useState([]);
 
+  const [editIndex, setEditIndex] = useState(null);
+
   /**
    * ! Step 1 calculate the must pay amount
    */
+  const deleteDocument = index => {
+    const updatedDocument = [...documentList];
+    updatedDocument.splice(index, 1);
+    setDocumentList(updatedDocument);
+    setEditIndex(null);
+  };
+
+  const editDocument = index => {
+    console.log(index);
+    setEditIndex(index);
+  };
+
   const ShowDocumentList = () => {
-    const deleteDocument = index => {
-      const updatedDocument = [...documentList];
-      updatedDocument.splice(index, 1);
-      setDocumentList(updatedDocument);
-    };
-
-    const editDocuValue = (index, newValue) => {
-      console.log(index, newValue);
-    };
-
     return (
       <>
         {documentList.map((item, index) => (
@@ -73,22 +89,12 @@ const PaymentUI = props => {
             Hồ sơ số {index + 1}: {Number(item).toLocaleString("vi")}
             <Divider type="vertical" />
             <span style={{ float: "right" }}>
-              <Input
-                placeholder="Thay đổi số tiền"
-                name="newValue"
-                style={{ width: 150 }}
-              />
               <Divider type="vertical" />
-              <a onClick={() => editDocuValue(index, props.values.newValue)}>
-                Sửa
+              <a onClick={() => editDocument(index)}>Sửa</a>
+              <Divider type="vertical" />
+              <a style={{ color: "red" }} onClick={() => deleteDocument(index)}>
+                Xóa
               </a>
-              <Divider type="vertical" />
-              <Popconfirm
-                title="Chắc chưa má?"
-                onConfirm={() => deleteDocument(index)}
-              >
-                <a style={{ color: "red" }}>Xóa</a>
-              </Popconfirm>
             </span>
           </div>
         ))}
@@ -96,14 +102,63 @@ const PaymentUI = props => {
     );
   };
 
+  const UpdateForm = () => {
+    const updateValue = values => {
+      const newDoc = [...documentList];
+      newDoc[editIndex] = Number(values.editValue);
+      setDocumentList(newDoc);
+      setEditIndex(null);
+    };
+
+    return (
+      <Formik
+        initialValues={{ editValue: "" }}
+        onSubmit={updateValue}
+        render={props => (
+          <Form>
+            {editIndex !== null ? (
+              <div>
+                <span style={{ fontWeight: "bold" }}>
+                  Sửa hồ sơ {editIndex + 1} -{" "}
+                  <span style={{ color: "#db4437" }}>
+                    {Number(documentList[editIndex]).toLocaleString("vi")}
+                  </span>
+                  :
+                </span>
+                <Divider type="vertical" />
+                <Input
+                  name="editValue"
+                  placeholder="số tiền mới"
+                  style={{ width: 100 }}
+                />
+                <Divider type="vertical" />
+                <Button htmlType="submit" type="primary">
+                  Update
+                </Button>
+                <Divider type="vertical" />
+                <Button onClick={() => setEditIndex(null)} type="danger">
+                  Cancel
+                </Button>
+              </div>
+            ) : (
+              ""
+            )}
+          </Form>
+        )}
+      />
+    );
+  };
+
   const DocumentCountsForm = () => {
     const addDocument = values => {
       const newDocList = [...documentList].concat(Number(values.documentValue));
       setDocumentList(newDocList);
+      setEditIndex(null);
     };
 
     const clearDocument = () => {
       setDocumentList([]);
+      setEditIndex(null);
     };
 
     return (
@@ -114,10 +169,10 @@ const PaymentUI = props => {
         onSubmit={addDocument}
         render={props => (
           <Form>
-            <ShowDocumentList />
             <p />
+
             <div style={{ fontWeight: "bold" }}>
-              Tổng tiền phải nộp:{" "}
+              Tổng tiền phải nộp ({documentList.length} hồ sơ):{" "}
               <span style={{ color: "#db4437" }}>
                 {Number(documentList.reduce((a, b) => a + b, 0)).toLocaleString(
                   "vi"
@@ -139,7 +194,7 @@ const PaymentUI = props => {
               Thêm
             </Button>
             <Divider type="vertical" />
-            <Popconfirm title="Xóa hết hồ sơ?" onConfirm={clearDocument}>
+            <Popconfirm title="Xóa hết á?" onConfirm={clearDocument}>
               <Button type="danger">Xóa hết</Button>
             </Popconfirm>
           </Form>
@@ -197,7 +252,11 @@ const PaymentUI = props => {
             }
             key={1}
           >
+            <ShowDocumentList />
             <DocumentCountsForm />
+            <hr style={{ color: "#ddeee1" }} />
+            <p />
+            <UpdateForm />
           </Panel>
 
           <Panel
