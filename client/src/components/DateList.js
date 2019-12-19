@@ -1,5 +1,5 @@
-import React from "react";
-import { List, Divider, message, Popconfirm } from "antd";
+import React, { useState } from "react";
+import { List, Divider, message, Popconfirm, Input, Form } from "antd";
 import { Button } from "antd";
 
 import { withRouter } from "react-router-dom";
@@ -7,8 +7,6 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { createDate, deleteDate, getAllDate } from "../reducers/dateReducers";
-
-import PaymentUI from "./PaymentUI";
 
 const mapStateToProps = state => {
   return {
@@ -30,6 +28,8 @@ const DateList = props => {
   const sortedDate = [...dateData].sort((a, b) => {
     return a - b;
   });
+
+  const [dateName, setName] = useState("");
 
   /**
    * ! The data list
@@ -71,14 +71,20 @@ const DateList = props => {
   /**
    * ! Date operation
    */
-  const addDate = () => {
-    const today = new Date().toDateString();
+  const addDate = newName => {
+    console.log(newName);
     const dateArray = sortedDate.map(i => i.currentDate);
-    if (dateArray.includes(today)) {
-      message.error(`Date already added`);
+    if (dateArray.includes(dateName)) {
+      message.error(`Trùng tên rồi má`);
+      // clearName();
       return;
     }
-    props.createDate();
+
+    const nameData = {
+      currentDate: newName
+    };
+    // clearName();
+    props.createDate(nameData);
   };
 
   const removeDate = id => {
@@ -87,7 +93,20 @@ const DateList = props => {
 
   return (
     <>
-      <Button onClick={addDate}>New date</Button>
+      <Form>
+        <Input
+          onChange={event => setName(event.target.value)}
+          style={{ width: 200 }}
+        />
+        <Divider type="vertical" />
+        <Button
+          onClick={() => addDate(dateName)}
+          type="primary"
+          htmlType="submit"
+        >
+          New date
+        </Button>
+      </Form>
       <DateListData />
     </>
   );

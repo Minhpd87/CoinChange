@@ -1,4 +1,21 @@
 import styled, { createGlobalStyle } from "styled-components";
+import { Button } from "antd";
+
+export const BoldDiv = styled.div`
+  font-weight: bold;
+`;
+
+export const TableTitle = styled.div`
+  font-weight: bold;
+  font-size: 12;
+`;
+
+export const StyledButton = styled(Button)`
+  font-weight: bold;
+  color: #1b3a57;
+  font-size: 13px;
+  background: #e8f0fe;
+`;
 
 export const StyledTable = styled.table`
   border: 1px solid #ccc;

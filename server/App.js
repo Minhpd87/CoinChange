@@ -10,6 +10,8 @@ const mongoose = require("mongoose");
 
 const payRouter = require("./controllers/payRouter");
 const dateRouter = require("./controllers/dateRouter");
+const userRouter = require("./controllers/userRouter");
+const loginRouter = require("./controllers/loginRouter");
 
 //import middleware
 const cors = require("cors");
@@ -44,5 +46,12 @@ app.use(morgan("tiny"));
 
 app.use("/api/paymentData", payRouter);
 app.use("/api/dateData", dateRouter);
+app.use("/api/userData", userRouter);
+app.use("/api/login", loginRouter);
+
+//handle route in express
+app.get("/*", function(req, res) {
+  res.sendFile(__dirname + "/build/index.html");
+});
 
 module.exports = app;

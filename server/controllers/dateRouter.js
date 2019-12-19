@@ -17,8 +17,10 @@ dateRouter.get("/", async (request, response) => {
 
 dateRouter.post("/", async (request, response) => {
   try {
+    const body = request.body;
+    console.log(body);
     const newDate = new dateList({
-      currentDate: new Date().toDateString()
+      currentDate: body.currentDate
     });
 
     const savedDate = await newDate.save();

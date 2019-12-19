@@ -18,7 +18,7 @@ const SimpleNavBar = props => {
         >
           Date list
         </Menu.Item>
-        <Menu.Item
+        {/* <Menu.Item
           name="stats"
           active={activeItem === "stats"}
           onClick={() => {
@@ -27,7 +27,7 @@ const SimpleNavBar = props => {
           }}
         >
           Stats
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
     </>
   );

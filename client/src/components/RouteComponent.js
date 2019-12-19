@@ -2,7 +2,8 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 import PaymentUI from "./PaymentUI";
-import DateList from "../components/DateList";
+import PaymentDetail from "./PaymentDetail";
+import DateList from "./DateList";
 
 const RouteComponent = () => {
   return (
@@ -22,6 +23,12 @@ const RouteComponent = () => {
         exact
         path="/date/:id"
         render={({ match }) => <PaymentUI date={match.params.id} />}
+      />
+
+      <Route
+        exact
+        path="/payment/:id"
+        render={({ match }) => <PaymentDetail payID={match.params.id} />}
       />
     </>
   );

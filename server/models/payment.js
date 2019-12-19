@@ -1,11 +1,31 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    unique: true
+  },
+  name: String,
+  email: String,
+  passwordHash: String
+});
+
+//toJSON for user
+userSchema.set("toJSON", {
+  transform: (document, returnedDocument) => {
+    returnedDocument.id = returnedDocument._id.toString();
+    delete returnedDocument._id;
+    delete returnedDocument.__v;
+    delete returnedDocument.passwordHash;
+  }
+});
+
 const dateSchema = new mongoose.Schema({
   currentDate: {
     type: String,
     unique: true,
-    default: new Date().toDateString()
+    default: "Chưa có tên"
   },
   paymentMade: [
     {
@@ -34,14 +54,14 @@ const paymentSchema = new mongoose.Schema({
   //ID
   paymentID: {
     type: Number,
-    unique: true,
+    // unique: true,
     default: 1
   },
 
   //List of documents for this payment
   documentList: {
-    type: Number,
-    default: 1
+    type: Array,
+    default: []
   },
 
   //Note as value, count, total
@@ -103,5 +123,6 @@ dateSchema.plugin(uniqueValidator);
 
 const payment = mongoose.model("payment", paymentSchema);
 const date = mongoose.model("date", dateSchema);
+const user = mongoose.model("user", userSchema);
 
-module.exports = { payment, date };
+module.exports = { payment, date, user };
