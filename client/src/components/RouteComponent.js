@@ -5,7 +5,19 @@ import PaymentUI from "./PaymentUI";
 import PaymentDetail from "./PaymentDetail";
 import DateList from "./DateList";
 
-const RouteComponent = () => {
+import { connect } from "react-redux";
+import LoginUI from "./LoginUI";
+import UnAuthorized from "./UnAuthorized";
+
+const mapStateToProps = state => {
+  return {
+    loginData: state.loginData
+  };
+};
+
+const RouteComponent = props => {
+  const loginData = props.loginData;
+
   return (
     <>
       {/* HomePage */}
@@ -22,7 +34,9 @@ const RouteComponent = () => {
       <Route
         exact
         path="/date/:id"
-        render={({ match }) => <PaymentUI date={match.params.id} />}
+        render={({ match }) =>
+          loginData ? <PaymentUI date={match.params.id} /> : <UnAuthorized />
+        }
       />
 
       <Route
@@ -30,8 +44,12 @@ const RouteComponent = () => {
         path="/payment/:id"
         render={({ match }) => <PaymentDetail payID={match.params.id} />}
       />
+
+      <Route exact path="/login" render={() => <LoginUI />} />
     </>
   );
 };
 
-export default RouteComponent;
+const ConnectedRoute = connect(mapStateToProps)(RouteComponent);
+
+export default ConnectedRoute;

@@ -10,7 +10,8 @@ import { createDate, deleteDate, getAllDate } from "../reducers/dateReducers";
 
 const mapStateToProps = state => {
   return {
-    dateData: state.dateData
+    dateData: state.dateData,
+    loginData: state.loginData
   };
 };
 
@@ -28,6 +29,8 @@ const DateList = props => {
   const sortedDate = [...dateData].sort((a, b) => {
     return a - b;
   });
+
+  const loginData = props.loginData;
 
   const [dateName, setName] = useState("");
 
@@ -51,9 +54,14 @@ const DateList = props => {
                 {item.currentDate}
               </div>
               <Divider type="vertical" />
-              <Popconfirm title="Xóa?" onConfirm={() => removeDate(item.id)}>
-                <a>Delete</a>
-              </Popconfirm>
+
+              {loginData ? (
+                <Popconfirm title="Xóa?" onConfirm={() => removeDate(item.id)}>
+                  <a>Delete</a>
+                </Popconfirm>
+              ) : (
+                <span style={{ color: "#db4437" }}>Not logged in</span>
+              )}
             </List.Item>
           )}
         />
