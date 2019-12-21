@@ -26,7 +26,7 @@ const RouteComponent = props => {
         path="/"
         render={() => (
           <div style={{ padding: 10 }}>
-            <DateList />
+            {loginData ? <DateList /> : <LoginUI />}
           </div>
         )}
       />

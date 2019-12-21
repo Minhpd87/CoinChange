@@ -29,19 +29,23 @@ const SimpleNavBar = props => {
         >
           Date list
         </Menu.Item>
-        <Menu.Item
-          name="login"
-          active={activeItem === "login"}
-          onClick={() => {
-            setActiveItem("login");
-            props.history.push("/login");
-          }}
-        >
-          {loginData ? <span>Logged in</span> : <span>Login</span>}
-        </Menu.Item>
+        {/* {loginData ? (
+          ""
+        ) : (
+          <Menu.Item
+            name="login"
+            active={activeItem === "login"}
+            onClick={() => {
+              setActiveItem("login");
+              props.history.push("/login");
+            }}
+          >
+            <span>Login</span>
+          </Menu.Item>
+        )} */}
 
-        <Menu.Item>
-          {loginData ? (
+        {loginData ? (
+          <Menu.Item>
             <Button
               type="danger"
               onClick={() => {
@@ -52,10 +56,10 @@ const SimpleNavBar = props => {
             >
               Log out
             </Button>
-          ) : (
-            ""
-          )}
-        </Menu.Item>
+          </Menu.Item>
+        ) : (
+          ""
+        )}
       </Menu>
     </>
   );

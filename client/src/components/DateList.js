@@ -84,14 +84,14 @@ const DateList = props => {
     const dateArray = sortedDate.map(i => i.currentDate);
     if (dateArray.includes(dateName)) {
       message.error(`Trùng tên rồi má`);
-      // clearName();
+      setName("");
       return;
     }
 
     const nameData = {
       currentDate: newName
     };
-    // clearName();
+    setName("");
     props.createDate(nameData);
   };
 
@@ -105,6 +105,7 @@ const DateList = props => {
         <Input
           onChange={event => setName(event.target.value)}
           style={{ width: 200 }}
+          value={dateName}
         />
         <Divider type="vertical" />
         <Button

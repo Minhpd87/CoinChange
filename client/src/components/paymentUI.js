@@ -63,7 +63,7 @@ const PaymentUI = props => {
   const currentDate = dateData ? dateData.find(item => item.id === dateID) : "";
 
   let sortedPayment = [...currentPayment].sort((a, b) => {
-    return a.paymentID - b.paymentID;
+    return -a.paymentID + b.paymentID;
   });
 
   /**
@@ -482,7 +482,9 @@ const PaymentUI = props => {
                 Thêm
               </Button>
               <Divider type="vertical" />
-              <Button onClick={duplicateDoc}>Copy hồ sơ cuối</Button>
+              <Button onClick={duplicateDoc}>
+                Copy số ({Number(lastDoc).toLocaleString("vi")})
+              </Button>
               <Divider type="vertical" />
               <Popconfirm title="Xóa hết á?" onConfirm={clearDocument}>
                 <Button type="danger">Xóa hết</Button>
@@ -634,7 +636,10 @@ const PaymentUI = props => {
                         ).toLocaleString("vi")}
                       </BoldDiv>
                       <p />
-                      <Button type="primary" htmlType="submit">
+                      <Button
+                        type="primary"
+                        onClick={() => savePaymentData(props.values)}
+                      >
                         Lưu lần thu này
                       </Button>
                     </StyledTd>

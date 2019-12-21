@@ -114,17 +114,17 @@ const Login = props => {
                 required
               />{" "}
               <p />
-              <Checkbox name="remember">Nhớ tài khoản</Checkbox>
+              <Checkbox name="remember">Remember me</Checkbox>
               {/* <div style={{ fontSize: "12px" }}>
                 Chưa có tài khoản? Đăng ký ở{" "}
                 <a onClick={() => props.history.push("/register")}>đây</a>
               </div> */}
               <p />
               <Button type="primary" htmlType="submit">
-                Đăng nhập
+                Login
               </Button>
               <Divider type="vertical" />
-              <ResetButton type="danger">Xóa</ResetButton>
+              <ResetButton type="danger">Cancel</ResetButton>
             </Form>
           )}
         />
