@@ -192,7 +192,7 @@ const PaymentUI = props => {
                     currentPayment.length >= 2 ? currentPayment.length - 1 : 1
                 });
               }}
-              title="Xóa thật á?"
+              title="Xóa ?"
             >
               <a style={{ color: "red" }}>Xóa</a>
             </Popconfirm>
@@ -207,6 +207,7 @@ const PaymentUI = props => {
         columns={columns}
         rowKey={record => record.id}
         size="small"
+        pagination={{ pageSize: 10 }}
       />
     );
   };
@@ -329,10 +330,7 @@ const PaymentUI = props => {
             <span style={{ textAlign: "right" }}>
               <a onClick={() => editDocument(index)}>Sửa</a>
               <Divider type="vertical" />
-              <Popconfirm
-                onConfirm={() => deleteDocument(index)}
-                title="Xóa nhé?"
-              >
+              <Popconfirm onConfirm={() => deleteDocument(index)} title="Xóa?">
                 <a style={{ color: "red" }}>Xóa</a>
               </Popconfirm>
             </span>
@@ -486,7 +484,7 @@ const PaymentUI = props => {
                 Copy số ({Number(lastDoc).toLocaleString("vi")})
               </Button>
               <Divider type="vertical" />
-              <Popconfirm title="Xóa hết á?" onConfirm={clearDocument}>
+              <Popconfirm title="Xóa hết ?" onConfirm={clearDocument}>
                 <Button type="danger">Xóa hết</Button>
               </Popconfirm>
             </div>
@@ -639,6 +637,7 @@ const PaymentUI = props => {
                       <Button
                         type="primary"
                         onClick={() => savePaymentData(props.values)}
+                        tabIndex={-1}
                       >
                         Lưu lần thu này
                       </Button>

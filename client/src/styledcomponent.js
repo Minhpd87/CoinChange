@@ -27,8 +27,8 @@ export const StyledTable = styled.table`
 `;
 
 export const StyledTr = styled.tr`
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
+  background-color: #efefef;
+  border: 1px solid #ccc;
   padding: 0.35em;
   @media (max-width: 600px) {
     // border-bottom: 3px solid #ddd;

@@ -7,6 +7,7 @@ dateRouter.get("/", async (request, response) => {
     const dateData = await dateList
       .find({})
       .populate("paymentMade", { dateID: 1, id: 1 });
+    // .populate("userCreated", { id: 1 });
 
     response.json(dateData.map(date => date.toJSON()));
   } catch (error) {
@@ -18,12 +19,12 @@ dateRouter.get("/", async (request, response) => {
 dateRouter.post("/", async (request, response) => {
   try {
     const body = request.body;
-    console.log(body);
     const newDate = new dateList({
-      currentDate: body.currentDate
+      currentDate: body.currentDate,
+      userCreated: body.userCreated
     });
-
     const savedDate = await newDate.save();
+    console.log(`Test:`, savedDate);
     response.json(savedDate.toJSON());
   } catch (error) {
     response.json({ error: error.message });

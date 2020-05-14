@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import PaymentUI from "./PaymentUI";
 import PaymentDetail from "./PaymentDetail";
 import DateList from "./DateList";
+import ChotTien from "./ChotTien";
 
 import { connect } from "react-redux";
 import LoginUI from "./LoginUI";
@@ -46,6 +47,8 @@ const RouteComponent = props => {
       />
 
       <Route exact path="/login" render={() => <LoginUI />} />
+
+      <Route exact path="/chottien" render={() => <ChotTien />} />
     </>
   );
 };

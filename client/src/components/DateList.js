@@ -25,11 +25,17 @@ const DateList = props => {
   /**
    * ! Redux state
    */
-  const dateData = props.dateData;
-  const sortedDate = [...dateData].sort((a, b) => {
-    return a - b;
-  });
 
+  const dateData = props.dateData.filter(
+    e => e.userCreated === props.loginData.id
+  );
+
+  console.log(props.dateData);
+
+  const sortedDate = [...dateData].sort((a, b) => {
+    return a.id < b.id ? 1 : -1;
+  });
+  console.log(dateData);
   const loginData = props.loginData;
 
   const [dateName, setName] = useState("");
@@ -80,7 +86,7 @@ const DateList = props => {
    * ! Date operation
    */
   const addDate = newName => {
-    console.log(newName);
+    console.log(newName, props.loginData.id);
     const dateArray = sortedDate.map(i => i.currentDate);
     if (dateArray.includes(dateName)) {
       message.error(`Trùng tên rồi má`);
@@ -89,7 +95,8 @@ const DateList = props => {
     }
 
     const nameData = {
-      currentDate: newName
+      currentDate: newName,
+      userCreated: props.loginData.id
     };
     setName("");
     props.createDate(nameData);

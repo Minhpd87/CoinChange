@@ -54,7 +54,22 @@ const SimpleNavBar = props => {
                 props.history.push("/login");
               }}
             >
-              Log out
+              Log out ---> {String(loginData.username).toUpperCase()}
+            </Button>
+          </Menu.Item>
+        ) : (
+          ""
+        )}
+
+        {loginData ? (
+          <Menu.Item>
+            <Button
+              type="primary"
+              onClick={() => {
+                props.history.push("/chottien");
+              }}
+            >
+              Chốt tiền
             </Button>
           </Menu.Item>
         ) : (

@@ -32,7 +32,11 @@ const dateSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "payment"
     }
-  ]
+  ],
+  userCreated: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user"
+  }
 });
 
 //toJSON function for returning data to browser

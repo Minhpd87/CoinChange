@@ -37,9 +37,10 @@ const PaymentDetail = props => {
   const currentPayment = paymentData
     ? paymentData.find(item => item.id === payID)
     : {};
-  const currentDate = props.dateData
-    ? props.dateData.find(item => item.id === currentPayment.dateID)
-    : "";
+  const currentDate =
+    currentPayment !== undefined && props.dateData
+      ? props.dateData.find(item => item.id === currentPayment.dateID)
+      : "";
 
   const currentPaymentID = currentPayment ? currentPayment.paymentID : null;
 
@@ -59,7 +60,7 @@ const PaymentDetail = props => {
     : {};
 
   const [documentList, setDocumentList] = useState(
-    currentPayment ? currentPayment.documentList : ""
+    currentPayment ? currentPayment.documentList : undefined
   );
   const [initialCount, setCount] = useState(firstCount);
   const [editIndex, setEditIndex] = useState(null);
@@ -78,10 +79,6 @@ const PaymentDetail = props => {
     updatedDocument.splice(index, 1);
     setDocumentList(updatedDocument);
     setEditIndex(null);
-  };
-
-  const PaymentStats = () => {
-    return <div></div>;
   };
 
   const ShowDocument = ({ docList }) => {
@@ -114,10 +111,7 @@ const PaymentDetail = props => {
                 Sửa
               </a>
               <Divider type="vertical" />
-              <Popconfirm
-                onConfirm={() => deleteDocument(index)}
-                title="Xóa nhé?"
-              >
+              <Popconfirm onConfirm={() => deleteDocument(index)} title="Xóa?">
                 <a style={{ color: "red" }}>Xóa</a>
               </Popconfirm>
             </li>
@@ -241,9 +235,11 @@ const PaymentDetail = props => {
             <div style={{ fontWeight: "bold" }}>
               Tổng tiền phải nộp ({documentList.length} hồ sơ):{" "}
               <span style={{ color: "#db4437" }}>
-                {Number(documentList.reduce((a, b) => a + b, 0)).toLocaleString(
-                  "vi"
-                )}
+                {documentList.length > 0
+                  ? Number(
+                      documentList.reduce((a, b) => a + b, 0)
+                    ).toLocaleString("vi")
+                  : ""}
               </span>
             </div>
             <p />
@@ -274,7 +270,7 @@ const PaymentDetail = props => {
                 Copy số ({Number(lastDoc).toLocaleString("vi")})
               </Button>
               <Divider type="vertical" />
-              <Popconfirm title="Xóa hết á?" onConfirm={clearDocument}>
+              <Popconfirm title="Xóa hết?" onConfirm={clearDocument}>
                 <Button type="danger">Xóa hết</Button>
               </Popconfirm>
             </div>
@@ -438,6 +434,7 @@ const PaymentDetail = props => {
                       <Button
                         type="primary"
                         onClick={() => savePaymentData(props.values)}
+                        tabIndex={-1}
                       >
                         Cập nhật
                       </Button>
@@ -576,11 +573,18 @@ const PaymentDetail = props => {
     );
   };
 
-  if (paymentData.length > 0 && currentDate && currentPayment) {
+  if (
+    paymentData &&
+    currentDate &&
+    payID &&
+    documentList &&
+    currentPayment !== undefined &&
+    currentPayment !== {}
+  ) {
     return (
       <>
         <PageHeader
-          title={`Lần thu ${currentPayment.paymentID} - ${currentDate.currentDate}`}
+          title={`Sửa Lần thu ${currentPayment.paymentID} - ${currentDate.currentDate}`}
           onBack={() => window.history.back()}
         />
         <p />
@@ -592,7 +596,15 @@ const PaymentDetail = props => {
       </>
     );
   } else {
-    return null;
+    return (
+      <>
+        <span>Back lại payment list để lấy data</span>
+        <Divider type="vertical" />
+        <Button onClick={() => window.history.back()} type="primary">
+          Go back
+        </Button>
+      </>
+    );
   }
 };
 
