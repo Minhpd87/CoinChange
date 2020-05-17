@@ -69,7 +69,7 @@ const SimpleNavBar = props => {
                 props.history.push("/chottien");
               }}
             >
-              Chốt tiền
+              Biểu chốt tiền
             </Button>
           </Menu.Item>
         ) : (
